@@ -1,10 +1,13 @@
+import Ua from './Ua';
+
 class Domimic {
   constructor() {
-    this.test1();
+    this.init();
   }
 
-  test1 () {
-    console.log(1);
+  init () {
+    var ua = new Ua();
+    console.log(ua.os, ua.browser);
   }
 }
 
