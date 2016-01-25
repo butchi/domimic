@@ -7,7 +7,6 @@ babelify = require 'babelify'
 source = require 'vinyl-source-stream'
 rename = require 'gulp-rename'
 uglify = require 'gulp-uglify'
-plumber = require 'gulp-plumber'
 notify = require 'gulp-notify'
 webserver = require 'gulp-webserver'
 
