@@ -1,0 +1,22 @@
+{
+  "name": "domimic",
+  "description": "imitate HTML elements",
+  "main": "dist/domimic.js",
+  "authors": [
+    "IWABUCHI Yuuki"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "html",
+    "dom"
+  ],
+  "moduleType": [],
+  "homepage": "http://butchi.jp/",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
