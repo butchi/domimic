@@ -1,14 +1,17 @@
 'use strict'
 
 gulp = require 'gulp'
-runSequence = require 'run-sequence'
+source = require 'vinyl-source-stream'
 browserify = require 'browserify'
 babelify = require 'babelify'
-source = require 'vinyl-source-stream'
+debowerify = require 'debowerify'
 rename = require 'gulp-rename'
 uglify = require 'gulp-uglify'
-notify = require 'gulp-notify'
-webserver = require 'gulp-webserver'
+browserSync = require 'browser-sync'
+
+NAME = 'domimic'
+SRC = './src'
+DEST = '.'
 
 gulp.task 'serve', () ->
   gulp.src '.'
@@ -18,23 +21,35 @@ gulp.task 'serve', () ->
       open: true,
   gulp.watch 'src/**/*', ['build']
 
-gulp.task 'babel', () ->
-  return browserify({entries: 'src/main.js', debug: true})
-    .transform ('babelify')
+gulp.task 'browserify', () ->
+  return browserify("#{SRC}/main.js")
+    .transform(babelify)
+    .transform(debowerify)
     .bundle()
-    .pipe(source('domimic.js'))
-    .pipe (gulp.dest 'dist')
+    .pipe(source("#{NAME}.js"))
+    .pipe(gulp.dest "#{DEST}")
 
 gulp.task 'minify', () ->
-  gulp.src('dist/domimic.js')
-    .pipe (uglify {})
-    .pipe (rename 'domimic.min.js')
-    .pipe (gulp.dest 'dist')
+  gulp.src("#{DEST}/#{NAME}.js")
+    .pipe (uglify {
+      preserveComments: 'license',
+    })
+    .pipe (rename "#{NAME}.min.js")
+    .pipe (gulp.dest "#{DEST}")
 
-gulp.task 'build', () ->
-  runSequence 'babel', 'minify'
+gulp.task 'js', gulp.series('browserify', gulp.parallel('minify'))
 
-gulp.task 'watch', () ->
-  gulp.watch('src/**/*', ['build'])
+gulp.task 'browser-sync' , () ->
+  browserSync
+    server: {
+      baseDir: DEST
+    }
 
-gulp.task 'default', ['build']
+  gulp.watch(["#{SRC}/**/*.js"], gulp.series('js', browserSync.reload))
+  gulp.watch(["#{DEST}/index.html"], browserSync.reload)
+
+gulp.task('serve', gulp.series('browser-sync'))
+
+gulp.task('build', gulp.parallel('js'))
+
+gulp.task 'default', gulp.series('build', 'serve')
