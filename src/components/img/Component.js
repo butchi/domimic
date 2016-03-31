@@ -14,7 +14,7 @@ export default class Img {
     } else if(this.ua.browser === 'chrome') {
       let tmpl = `
 <span class="domimic__img__appearance"></span>
-`
+`;
       let compiled = _.template(tmpl);
       this.elm.innerHTML = compiled({
       });
