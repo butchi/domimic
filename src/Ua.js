@@ -4,16 +4,16 @@ class Ua {
     var os;
     var browser;
 
-    if(false) {
+    if(!ua) {
+    } else if(ua.includes('chrome')) {
+      browser = 'chrome';
     } else if(ua.includes('safari')) {
       browser = 'safari';
     } else if(ua.includes('firefox')) {
       browser = 'firefox';
-    } else if(ua.includes('chrome')) {
-      browser = 'chrome';
     }
 
-    if(false) {
+    if(!ua) {
     } else if(ua.includes('mac os')) {
       os = 'mac';
     } else if(ua.includes('windows')) {
